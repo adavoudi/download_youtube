@@ -35,7 +35,7 @@ def download_link(link):
     else:
         link = yt.streams.filter(progressive=True, subtype='mp4').order_by('resolution').desc().first()
     
-    bar = tqdm(range(link.filesize))
+    bar = tqdm(range(link.filesize), unit='Bytes', unit_scale=True)
     link.download(output_path=output_dir)
     bar.close()
     print()
