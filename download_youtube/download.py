@@ -11,7 +11,12 @@ parser.add_argument('path', type=str,
                    help='Path to a youtube link or to a text file in which each line represents a youtube link.')
 parser.add_argument('--output_dir', type=str, default='.',
                    help='Path to a directory where videos will be downloaded to.')
+parser.add_argument('--no_audio', action='store_true', 
+                   help='Download videos with no audio (default false)')
+
 args = parser.parse_args()
+output_dir = args.output_dir
+only_video = args.no_audio
 
 
 def show_progress_bar(stream, chunk, file_handle, bytes_remaining):
@@ -20,19 +25,23 @@ def show_progress_bar(stream, chunk, file_handle, bytes_remaining):
 
 def download_link(link):
     global bar
+    link = link.strip()
     print('Downloading [%s] ...' % link)
     yt = YouTube(link)
     yt.register_on_progress_callback(show_progress_bar)
 
-    link = yt.streams.filter(only_video=True,subtype='mp4').order_by('resolution').asc().first()
+    if only_video:
+        link = yt.streams.filter(only_video=True,subtype='mp4').order_by('resolution').desc().first()
+    else:
+        link = yt.streams.filter(progressive=True, subtype='mp4').order_by('resolution').desc().first()
+    
     bar = tqdm(range(link.filesize))
     link.download(output_path=output_dir)
+    bar.close()
     print()
 
 
 def main():
-    global output_dir
-    output_dir = args.output_dir
     pathlib.Path(output_dir).mkdir(parents=True, exist_ok=True)
 
     if args.source == 'list':
