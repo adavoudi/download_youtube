@@ -2,10 +2,23 @@
 Download a list of videos from youtube.
 
 ## Install
-Just run `pip3 install download_youtube`
+You can choose _one_ of the following two ways to get started with `youtubevideosdownload`.
+
+1. Let pip install `youtubevideosdownload` globally in dev mode (still globally accessible, but changes to the code immediately take effect)
+    ```bash
+    $ pip3 install -e .
+    ```
+
+2. Install with pip globally
+    ```
+    $ pip3 install .
+    ```
+
+## Usage
 
 ```
-usage: download.py [-h] [--output_dir OUTPUT_DIR] {list,link} path
+usage: youtubevideosdownload [-h] [--output_dir OUTPUT_DIR] [--no_audio]
+                             {list,link} path
 
 Download a list of videos from youtube. (Powered by PyTube
 [https://github.com/nficano/pytube])
@@ -21,4 +34,5 @@ optional arguments:
   --output_dir OUTPUT_DIR
                         Path to a directory where videos will be downloaded
                         to.
+  --no_audio            Download videos with no audio (default false)
 ```
