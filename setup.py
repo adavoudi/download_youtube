@@ -1,6 +1,4 @@
 #!/usr/bin/env python3
-# Copyright (c) 2017 Faraadid Ertebaat Fava
-"Setup file for common classes and helper functions"
 
 from setuptools import setup
 
@@ -18,7 +16,7 @@ setup(
     packages=['download_youtube'],
     entry_points={
         'console_scripts': [
-            'download_youtube = download_youtube.download:main',
+            'youtubevideosdownload = youtube_videos_download.youtube_videos_download:main',
         ],
     },    
     install_requires=[

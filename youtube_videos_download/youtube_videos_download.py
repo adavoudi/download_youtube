@@ -31,7 +31,7 @@ def download_link(link):
     yt.register_on_progress_callback(show_progress_bar)
 
     if only_video:
-        link = yt.streams.filter(only_video=True,subtype='mp4').order_by('resolution').desc().first()
+        link = yt.streams.filter(only_video=True, subtype='mp4').order_by('resolution').desc().first()
     else:
         link = yt.streams.filter(progressive=True, subtype='mp4').order_by('resolution').desc().first()
     
