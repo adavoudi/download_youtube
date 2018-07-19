@@ -4,7 +4,8 @@ from tqdm import tqdm
 import pathlib
 
 
-parser = argparse.ArgumentParser(description='Download a list of videos from youtube. (Powered by PyTube [https://github.com/nficano/pytube])')
+parser = argparse.ArgumentParser(prog='youtubevideosdownload', 
+                   description='Download a list of videos from youtube. (Powered by PyTube [https://github.com/nficano/pytube])')
 parser.add_argument('source', choices=['list', 'link'],
                    help='Whether the following path is a path to a text file (containig links) or to a youtube link')
 parser.add_argument('path', type=str,
