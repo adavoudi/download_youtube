@@ -13,7 +13,7 @@ setup(
     author_email='davoudialireza@gmail.com',
     url = 'https://github.com/adavoudi/download_youtube',
     license='MIT License',
-    packages=['download_youtube'],
+    packages=['youtube_videos_download'],
     entry_points={
         'console_scripts': [
             'youtubevideosdownload = youtube_videos_download.youtube_videos_download:main',

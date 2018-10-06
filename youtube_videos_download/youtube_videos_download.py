@@ -1,12 +1,14 @@
 import argparse
 from pytube import YouTube
+from pytube import Playlist
 from tqdm import tqdm
 import pathlib
+import os
 
 
 parser = argparse.ArgumentParser(prog='youtubevideosdownload', 
                    description='Download a list of videos from youtube. (Powered by PyTube [https://github.com/nficano/pytube])')
-parser.add_argument('source', choices=['list', 'link'],
+parser.add_argument('source', choices=['list', 'link', 'playlist'],
                    help='Whether the following path is a path to a text file (containig links) or to a youtube link')
 parser.add_argument('path', type=str,
                    help='Path to a youtube link or to a text file in which each line represents a youtube link.')
@@ -42,16 +44,25 @@ def download_link(link):
     print()
 
 
+def download_list(links):
+    for idx, link in enumerate(links):
+        print('[%d/%d]' % (idx+1,len(links)))
+        download_link(link)
+        print('----------------------------------')
+
 def main():
     pathlib.Path(output_dir).mkdir(parents=True, exist_ok=True)
 
     if args.source == 'list':
         with open(args.path, 'r') as f:
-            links = f.readlines()
-
-        for idx, link in enumerate(links):
-            print('[%d/%d]' % (idx+1,len(links)))
-            download_link(link)
-            print('----------------------------------')
-    else:
+            links = [line for line in f.readlines() if len(line.strip()) > 0]
+        download_list(links)
+    elif args.source == 'link':
         download_link(args.path)
+    elif args.source == 'playlist':
+        pl = Playlist(args.path)
+        pl.populate_video_urls()
+        with open(os.path.join(output_dir, 'urls.txt'), 'w') as f:
+            for line in pl.video_urls:
+                print(line, file=f)
+        download_list(pl.video_urls)
